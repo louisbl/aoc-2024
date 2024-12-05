@@ -1,18 +1,22 @@
 from collections import defaultdict
 from pprint import pp
 
+
 def is_X_MAS(r, c, chars):
     mas = dict()
     count_ms = {"M": 0, "S": 0}
-    for x in range(-1,2):
-        if x == 0: continue
-        for y in range(-1,2):
-            if y == 0: continue
-            current_char = chars[r+x][c+y]
+    for x in range(-1, 2):
+        if x == 0:
+            continue
+        for y in range(-1, 2):
+            if y == 0:
+                continue
+            current_char = chars[r + x][c + y]
             mas[f"{x}{y}"] = current_char
             if current_char in count_ms:
                 count_ms[current_char] += 1
     return count_ms["M"] == 2 and count_ms["S"] == 2 and mas["-1-1"] != mas["11"]
+
 
 def count_XMAS(line):
     count = 0
@@ -37,6 +41,7 @@ def count_XMAS(line):
             current_rev_idx = 0 if char != SMAX[0] else 1
     return count
 
+
 def main():
     with open(file="./input", mode="r") as input_file:
         lines = input_file.read().splitlines()
@@ -45,20 +50,20 @@ def main():
     chars = list(map(lambda line: list(line), lines))
 
     #   -2-1 0 1 2
-    #0      00
-    #1    10  01
-    #2  20  11  02
-    #3    21  12
-    #4      22
+    # 0      00
+    # 1    10  01
+    # 2  20  11  02
+    # 3    21  12
+    # 4      22
     upright_diagonals = defaultdict(list)
     downright_diagonals = defaultdict(list)
     for r in range(rows_count):
         for c in range(cols_count):
-            downright_diagonals[c-r].append(chars[r][c])
-            upright_diagonals[c+r].append(chars[r][c])
+            downright_diagonals[c - r].append(chars[r][c])
+            upright_diagonals[c + r].append(chars[r][c])
 
     count_rows = sum(map(count_XMAS, chars))
-    count_cols = sum(map(count_XMAS, zip(*chars))) # transpose
+    count_cols = sum(map(count_XMAS, zip(*chars)))  # transpose
     count_upr_diag = sum(map(count_XMAS, upright_diagonals.values()))
     count_dwr_diag = sum(map(count_XMAS, downright_diagonals.values()))
 
@@ -72,6 +77,7 @@ def main():
             if chars[r][c] == "A" and is_X_MAS(r, c, chars):
                 count_x_mas += 1
     print(f"count X-mas: {count_x_mas}")
-    
+
+
 if __name__ == "__main__":
     main()
