@@ -1,6 +1,3 @@
-from concurrent.futures import ProcessPoolExecutor
-import curses
-import os
 from collections import defaultdict
 from curses import wrapper
 from pprint import pp
